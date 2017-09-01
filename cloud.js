@@ -21,12 +21,12 @@ AV.Cloud.define('requestPast', function(request) {
 
 	var findInDailyReport = function(date, reports) {
 		var report = null;
-		var lookupTime = new Date(date.iso);
+		var lookupTime = new Date(date);
 		if (reports) {
 		  for (var i = 0; i < reports.length; i++) {
 			  var r = reports[i].toJSON();
 
-			  var reportTime = new Date(r.date.iso);
+			  var reportTime = new Date(r.date);
 			  // Find the max report whose date is less than 'date' in param
 			  if (reportTime.getFullYear() == lookupTime.getFullYear() 
 				  && reportTime.getMonth() == lookupTime.getMonth() 
