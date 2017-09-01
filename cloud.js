@@ -1,6 +1,6 @@
 var AV = require('leanengine');
 
-AV.Cloud.define('requestPast', function(request, response) {
+AV.Cloud.define('requestPast', function(request) {
 	var result = [];
 
 	var offset = 86400000;
@@ -49,7 +49,8 @@ AV.Cloud.define('requestPast', function(request, response) {
 	var date = new Date();
 
 	date = dayBefore(date);
-	doQuery(date)
+	
+	return doQuery(date)
 		.then(function(objects) {
 			result.push(objects[0]);
 			date = dayBefore(date);
@@ -99,11 +100,11 @@ AV.Cloud.define('requestPast', function(request, response) {
 					new_result.push(r);
 				}
 			}
-			response.success(new_result);
+			return new_result;
 		});
 });
 
-AV.Cloud.define('recordDaily', function(request, response) {
+AV.Cloud.define('recordDaily', function(request) {
 	var query = new AV.Query('Snapshot');
 	query.limit(1)
 	query.addDescending('date');
@@ -117,7 +118,7 @@ AV.Cloud.define('recordDaily', function(request, response) {
 		return then;
 	}
 
-	query.find().then(function(objects){
+	return query.find().then(function(objects){
 		var DailyReport = AV.Object.extend('DailyReport');
 		var report = new DailyReport();
 		
@@ -139,6 +140,6 @@ AV.Cloud.define('recordDaily', function(request, response) {
 		  return report.save();
 		}
 	}).then(function() {
-		response.success('ok');
+		return 'ok';
 	});
 });
