@@ -8,9 +8,9 @@ AV.Cloud.define('requestPast', function(request) {
 	var doQuery = function(date) {
 		var query = new AV.Query('Snapshot');
 		query.limit(1);
-		query.addDescending('date');
-		query.lessThanOrEqualTo('date', date);
-		query.greaterThanOrEqualTo('date', new Date(date.getTime() - offset));
+		query.addDescending('createdAt');
+		query.lessThanOrEqualTo('createdAt', date);
+		query.greaterThanOrEqualTo('createdAt', new Date(date.getTime() - offset));
 		
 		return query.find();
 	};
@@ -86,8 +86,8 @@ AV.Cloud.define('requestPast', function(request) {
 			
 			var query = new AV.Query('DailyReport');
 			query.limit(7);
-			query.addDescending('date');
-			query.lessThanOrEqualTo('date', new Date());
+			query.addDescending('createdAt');
+			query.lessThanOrEqualTo('createdAt', new Date());
 			
 			return query.find();
 		})
@@ -107,9 +107,9 @@ AV.Cloud.define('requestPast', function(request) {
 AV.Cloud.define('recordDaily', function(request) {
 	var query = new AV.Query('Snapshot');
 	query.limit(1)
-	query.addDescending('date');
-	query.lessThanOrEqualTo('date', new Date());
-	query.greaterThanOrEqualTo('date', new Date(new Date().getTime() - 86400000));
+	query.addDescending('createdAt');
+	query.lessThanOrEqualTo('createdAt', new Date());
+	query.greaterThanOrEqualTo('createdAt', new Date(new Date().getTime() - 86400000));
 
 	var getReportDate = function() {
 		var now = new Date(); // 4AM in the morning in Beijing Time
